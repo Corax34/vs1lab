@@ -41,8 +41,13 @@ const GeoTagStore = require('../models/geotag-store');
  */
 
 // TODO: extend the following route example if necessary
+
+const GeoTagExamples = require('../models/geotag-examples')
+
+var storage = GeoTagExamples.create()
+
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  res.render('index', { taglist: storage.geotags, latValue: "", longValue: "",  })
 });
 
 /**
@@ -61,6 +66,26 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.post('/tagging', (req, res) => {
+  console.log("route /tagging")
+  console.log(req.body)
+
+  // req.body contains variables passed in the post formular
+  var name = req.body["name"]
+  var lat = req.body["lat"]
+  var long = req.body["long"]
+  var hashtag = req.body["hashtag"]
+  var geotag = new GeoTag(name, lat, long, hashtag)
+
+  console.log("lat tagging:")
+  console.log(lat)
+
+  storage.addGeoTag(geotag)
+  var nearbyTags = storage.getNearbyGeoTags({latitude: lat, longitude: long})
+
+  // pass variables to view
+  res.render('index', {taglist: nearbyTags, latValue: lat, longValue: long}) 
+})
 
 /**
  * Route '/discovery' for HTTP 'POST' requests.
@@ -78,6 +103,18 @@ router.get('/', (req, res) => {
  * by radius and keyword.
  */
 
-// TODO: ... your code here ...
+ router.post('/discovery', (req, res) => {
+  console.log("route /discovery")
+  console.log(req.body)
+
+  // req.body contains variables passed in the post formular
+  var lat = req.body["lat"]
+  var long = req.body["long"]
+  var keyword = req.body["search-input"]
+  var nearbyTags = storage.searchNearbyGeoTags({latitude: lat, longitude: long}, keyword)
+
+  // pass variables to view
+  res.render('index', {taglist: nearbyTags, latValue: lat, longValue: long})
+})
 
 module.exports = router;

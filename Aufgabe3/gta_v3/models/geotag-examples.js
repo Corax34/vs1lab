@@ -1,5 +1,7 @@
 // File origin: VS1LAB A3
 
+const InMemoryGeoTagStore = require("./geotag-store");
+
 /**
  * This script is a template for exercise VS1lab/Aufgabe3
  * Complete all TODOs in the code documentation.
@@ -12,6 +14,21 @@
  * 
  */
 class GeoTagExamples {
+    static create() {
+        this.myStorage = new InMemoryGeoTagStore()
+
+
+        for(var i = 0; i < GeoTagExamples.tagList.length; i++) {
+            var gname = GeoTagExamples.tagList[i][0]
+            var glatitude = GeoTagExamples.tagList[i][1]
+            var glongitude = GeoTagExamples.tagList[i][2]
+            var ghashtag = GeoTagExamples.tagList[i][3]
+            this.myStorage.addGeoTag({name: gname,  latitude: glatitude, longitude: glongitude, hashtag: ghashtag})
+        }
+
+        return this.myStorage
+    }
+     
     /**
      * Provides some geoTag data
      */
@@ -30,6 +47,7 @@ class GeoTagExamples {
             ['Building K', 49.013190, 8.392090, '#campus'],
         ];
     }
+
 }
 
 module.exports = GeoTagExamples;
