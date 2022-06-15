@@ -1,9 +1,6 @@
 // File origin: VS1LAB A3
 
-/**
- * This script is a template for exercise VS1lab/Aufgabe3
- * Complete all TODOs in the code documentation.
- */
+import {v4 as uuidv4 } from 'uuid'
 
 /** * 
  * A class representing geotags.
@@ -11,6 +8,7 @@
  */
 class GeoTag {
     constructor(name, latitude, longitude, hashtag) {
+        this.id = uuidv4()
         this.name = name
         this.latitude = latitude
         this.longitude = longitude
