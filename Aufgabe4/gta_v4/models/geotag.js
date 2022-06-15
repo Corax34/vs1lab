@@ -1,6 +1,6 @@
 // File origin: VS1LAB A3
 
-import {v4 as uuidv4 } from 'uuid'
+const uuidv4 = require('uuid').v4
 
 /** * 
  * A class representing geotags.
@@ -13,6 +13,10 @@ class GeoTag {
         this.latitude = latitude
         this.longitude = longitude
         this.hashtag = hashtag
+    }
+
+    getId() {
+        return this.id
     }
     
 }
