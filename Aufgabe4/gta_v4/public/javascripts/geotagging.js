@@ -54,6 +54,32 @@ function setLocation(locationHelper) {
     updateMapElement(latitude, longitude)
 }
 
+function didSubmitDiscoveryFilterForm() {
+    alert('lol')
+}
+
+function didSubmitTagForm() {
+    alert('lol')
+}
+
+document.querySelector('#discoveryFilterForm').addEventListener('submit', function(e) {
+    console.log('hello')
+    if (!isValid) {
+        e.preventDefault()
+    }
+
+    didSubmitDiscoveryFilterForm()
+})
+
+document.querySelector('#tag-form').addEventListener('submit', function(e) {
+    console.log('hello')
+    if (!isValid) {
+        e.preventDefault()
+    }
+
+    didSubmitTagForm()
+})
+
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
     updateLocation();
