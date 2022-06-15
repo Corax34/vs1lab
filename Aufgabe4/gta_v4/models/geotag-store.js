@@ -39,6 +39,22 @@ class InMemoryGeoTagStore{
         })
     }
 
+    removeGeoTagWithId(id) {
+        let toBeRemoved = this.getGeoTagById(id)
+        
+        if(toBeRemoved != undefined) {
+            this.geotags = this.geotags.filter((geotag) => geotag.id != id)
+
+            return toBeRemoved
+        } else {
+            return { error: `GeoTag with id ${id} doesn't exist.`}
+        }
+    }
+
+    getAllGeoTags() {
+        return this.geotags
+    }
+
     // https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
     getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
         var R = 6371; // Radius of the earth in km
@@ -83,6 +99,40 @@ class InMemoryGeoTagStore{
         return locations
     }
 
+    searchGeoTags(keyword) {
+        var locations = this.geotags.filter((geotag) => {
+            var regex = new RegExp("[\s\S]*" + keyword + "[\s\S]*")
+
+            return regex.exec(geotag.name) || regex.exec(geotag.hashtag)
+        })
+
+        return locations
+    }
+
+    getGeoTagById(id) {
+        let geotag = this.geotags.find(geotag => geotag.id === id)
+
+        if(geotag != undefined) {
+            return geotag
+        } else {
+            return {error: `Geotag with id ${id} not found.`}
+        }
+    }
+
+    updateGeoTagWithId(id, name, lat, long, hashtag) {
+        let i = this.geotags.findIndex(geotag => geotag.id === id);
+
+        if(this.geotags[i] != undefined) {
+            this.geotags[i].name = name
+            this.geotags[i].lat = lat
+            this.geotags[i].long = long
+            this.geotags[i].hashtag = hashtag
+
+            return this.geotags[i]
+        }
+
+        return {error: `Geotag with id ${id} not found.`}
+    }
 }
 
 module.exports = InMemoryGeoTagStore
