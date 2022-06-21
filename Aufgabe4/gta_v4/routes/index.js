@@ -127,9 +127,9 @@ router.get('/', (req, res) => {
  * If 'latitude' and 'longitude' are available, it will be further filtered based on radius.
  */
 router.get('/api/geotags', (req, res) => {
-  let searchterm = req.body['searchterm']
-  let latitude = req.body['latitude']
-  let longitude = req.body['longitude']
+  let searchterm = req.query.searchterm;
+  let latitude = req.query.latitude;
+  let longitude = req.query.longitude;
   if(searchterm != '' && searchterm != undefined) {
     if(latitude != undefined && latitude != '' && longitude != undefined && longitude != '') {
       res.json(storage.searchNearbyGeoTags({latitude: latitude, longitude: longitude}, searchterm))
@@ -155,8 +155,8 @@ router.get('/api/geotags', (req, res) => {
 
 router.post('/api/geotags', (req, res) => {
   var name = req.body["name"]
-  var lat = req.body["lat"]
-  var long = req.body["long"]
+  var lat = req.body["latitude"]
+  var long = req.body["longitude"]
   var hashtag = req.body["hashtag"]
   var geotag = new GeoTag(name, lat, long, hashtag)
   
